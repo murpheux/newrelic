@@ -1,0 +1,13 @@
+mutation {
+  userManagementRemoveUsersFromGroups(
+    removeUsersFromGroupsOptions: {
+      groupIds: [YOUR_GROUP_IDS]
+      userIds: [YOUR_USER_IDS]
+    }
+  ) {
+    groups {
+      displayName
+      id
+    }
+  }
+}

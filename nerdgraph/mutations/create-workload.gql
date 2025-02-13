@@ -1,0 +1,21 @@
+mutation {
+  workloadCreate(
+    accountId: NEW_WORKLOAD_ACCOUNT_ID,
+    workload: {
+      name: "NAME_OF_WORKLOAD",
+      entityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...],
+      entitySearchQueries: [
+        {
+          query: "(type = 'SERVICE') and tags.label.environment = 'production'"
+        },
+        ...
+      ],
+      scopeAccounts: {
+        accountIds: [NEW_RELIC_ACCOUNT_ID_1, NEW_RELIC_ACCOUNT_ID_2, ...]
+      }
+    }
+  )
+  {
+    guid
+  }
+}

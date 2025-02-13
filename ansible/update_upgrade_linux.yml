@@ -1,0 +1,46 @@
+---
+- name: Update and upgrade Linux systems
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Update and upgrade Arch Linux (Pacman)
+      block:
+        - name: Update package list and upgrade all packages (Arch)
+          pacman:
+            update_cache: yes
+            upgrade: yes
+      when: ansible_os_family == "Archlinux"
+
+    - name: Update and upgrade Debian/Ubuntu (APT)
+      block:
+        - name: Update package list (Debian/Ubuntu)
+          apt:
+            update_cache: yes
+
+        - name: Upgrade all packages (Debian/Ubuntu)
+          apt:
+            upgrade: dist
+            autoclean: yes
+            autoremove: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Update and upgrade Red Hat/CentOS (YUM/DNF)
+      block:
+        - name: Update all packages (Red Hat/CentOS)
+          yum:
+            name: "*"
+            state: latest
+            update_cache: yes
+
+        - name: Clean up YUM/DNF cache (Red Hat/CentOS)
+          yum:
+            clean: all
+      when: ansible_os_family == "RedHat"
+
+    - name: Update and upgrade Alpine Linux (APK)
+      block:
+        - name: Update package list and upgrade all packages (Alpine)
+          apk:
+            update_cache: yes
+            upgrade: yes
+      when: ansible_os_family == "Alpine"

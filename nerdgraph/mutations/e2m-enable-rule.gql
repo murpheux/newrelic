@@ -1,0 +1,21 @@
+mutation {
+  eventsToMetricsUpdateRule(
+    updates: { ruleId: "12", accountId: 123456, enabled: true }
+  ) {
+    successes {
+      id
+      name
+      nrql
+    }
+    failures {
+      errors {
+        description
+        reason
+      }
+      submitted {
+        ruleId
+        accountId
+      }
+    }
+  }
+}

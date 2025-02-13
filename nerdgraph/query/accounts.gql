@@ -1,0 +1,13 @@
+{
+  actor {
+    organization {
+      accountManagement {
+        managedAccounts {
+          name
+          id
+          regionCode
+        }
+      }
+    }
+  }
+}

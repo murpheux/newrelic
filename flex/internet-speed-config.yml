@@ -1,0 +1,11 @@
+---
+integrations:
+  - name: nri-flex
+    interval: 5m
+    config:
+      name: Telus Internet
+      apis:
+        - name: internet speedtest
+        - event_type: internetSpeedtest
+          commands:
+            - run: "speedtest-cli --json"

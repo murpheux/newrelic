@@ -1,0 +1,24 @@
+{
+  actor {
+    organization {
+      authorizationManagement {
+        authenticationDomains(id: "YOUR_AUTHENTICATION_DOMAIN_ID") {
+          authenticationDomains {
+            groups {
+              groups {
+                displayName
+                id
+                roles {
+                  roles {
+                    roleId
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

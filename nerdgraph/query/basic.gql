@@ -1,0 +1,9 @@
+{
+  actor {
+    user {
+      name
+      email
+    }
+    account(id: 3375015)
+  }
+}

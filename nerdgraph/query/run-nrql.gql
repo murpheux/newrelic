@@ -1,0 +1,106 @@
+{
+  actor {
+    account(id: YOUR_ACCOUNT_ID) {
+      nrql(query: "SELECT * FROM NrAiIncident since 1 day ago") {
+        results
+      }
+    }
+  }
+}
+
+{ actor { account(id: ${accountId}) {
+        nrql(query: "SELECT latest(entityGuid) AS guid FROM SystemSample FACET hostname WHERE hostname IN (${hostnameList})") {
+          results
+        } } } }
+
+
+
+{ actor {
+          entities(guids: [${hostsGuids}]) {
+            ... on InfrastructureHostEntity { guid name alertSeverity reporting hostSummary { cpuUtilizationPercent diskUsedPercent memoryUsedPercent } }
+          }
+        } }
+
+
+// fetchEngineStatuses
+
+{
+  actor {
+    account(id: 2564166) {
+      engine: nrql(query: "SELECT latest(status) as status FROM InstanceStatusSample WHERE status IS NOT NULL FACET jvmName WHERE environment = 'dev' LIMIT MAX  SINCE 5 minutes ago") {
+        results
+      }
+      alerts: nrql(query: "SELECT latest(open_violations_count_critical) AS openCritical, latest(open_violations_count_warning) AS openWarning FROM TibcoAlertsTargets FACET targetsname SINCE 1 day ago LIMIT MAX") {
+        results
+      }
+      agent: nrql(query: "SELECT latest(message) as message FROM InstanceStatusSample WHERE status IS NULL and message LIKE 'Agent%is Down%' FACET jvmName WHERE environment = 'dev' LIMIT MAX  SINCE 35 seconds ago") {
+        results
+      }
+    }
+  }
+}
+
+// getEntitiesDetails
+
+account(id: 2564166) {
+            nrql(query: "SELECT average(newrelic.timeslice.value) * 100 as heapMemoryUtilization FROM Metric WHERE entity.guid IN (${eList.replace(/"/g, '\'')}) and  metricTimesliceName = 'Memory/Heap/Utilization' FACET entity.guid LIMIT MAX") { results }
+          }
+
+actor {
+          entities(guids: [${eList}]) {
+            ... on ApmApplicationEntity {
+              guid name alertSeverity reporting apmSummary { apdexScore errorRate hostCount instanceCount responseTimeAverage throughput }
+              relationships(filter: {entityType: INFRASTRUCTURE_HOST_ENTITY}) {
+                source { entity { guid name type ... on InfrastructureHostEntityOutline { alertSeverity reporting hostSummary { cpuUtilizationPercent diskUsedPercent memoryUsedPercent } } } }
+              }
+            }
+          }
+          ${heapMemoryUtilizationNRQL}
+}
+
+
+// fetchApps
+
+
+actor {
+        entitySearch(queryBuilder: {domain: APM, tags: [{key: "component", value: "${component}"}, {key: "environment", value: "${environment}"}], type: APPLICATION}) {
+          results { entities { guid } }
+        }
+}
+
+------------------------------------
+// fetchOHIs
+
+const additionalConditions = ` WHERE environment = '${environment}' LIMIT MAX `;
+
+actor {
+        account(id: 2564166) {
+          queues: nrql(query: "SELECT uniques(\`Queue Name\`) AS queues FROM EMSQueue FACET \`EMS Server\` ${additionalConditions}") {
+            results
+          }
+          topics: nrql(query: "SELECT uniques(Topic) AS topics FROM EMSTopic FACET \`EMS Server\` ${additionalConditions}") {
+            results
+          }
+          postgres: nrql(query: "SELECT uniques(displayName) AS databases FROM PostgresqlDatabaseSample FACET hostname ${additionalConditions}") {
+            results
+          }
+          cassandra: nrql(query: "SELECT uniques(displayName) as databases FROM CassandraSample FACET fullHostname ${additionalConditions}") {
+            results
+          }
+          apache: nrql(query: "SELECT uniques(displayName) AS servers FROM ApacheSample FACET hostname  ${additionalConditions}") {
+            results
+          }
+          alerts: nrql(query: "SELECT latest(open_violations_count_critical) AS openCritical, latest(open_violations_count_warning) AS openWarning FROM TibcoAlertsTargets FACET targetsname SINCE 1 day ago LIMIT MAX") {
+            results
+          }
+          cassandraStatuses: nrql(query: "SELECT latest(status) AS status FROM CassandraNodeToolSample FACET displayName  ${additionalConditions}") {
+            results
+          }
+          queuesMessages: nrql(query: "SELECT latest(\`Total Pending Count\`) AS queuesmp from EMSQueueTotals  facet \`EMS Server\`  ${additionalConditions}") {
+            results
+          }
+          topicsMessages: nrql(query: "SELECT latest(\`Total Pending Count\`) AS topicsmp from EMSTopicTotals  facet \`EMS Server\`  ${additionalConditions}") {
+            results
+          }
+        }
+      }

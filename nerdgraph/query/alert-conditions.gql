@@ -1,0 +1,17 @@
+{
+  actor {
+    account(id: 3375015) {
+      alerts {
+        nrqlConditionsSearch {
+          nextCursor
+          nrqlConditions {
+            id
+            name
+            type
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}

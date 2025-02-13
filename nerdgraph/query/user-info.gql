@@ -1,0 +1,24 @@
+{
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains {
+          authenticationDomains {
+            groups {
+              groups {
+                users {
+                  users {
+                    id
+                    email
+                    name
+                    timeZone
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

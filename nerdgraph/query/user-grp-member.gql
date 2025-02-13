@@ -1,0 +1,22 @@
+{
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains {
+          authenticationDomains {
+            users {
+              users {
+                groups {
+                  groups {
+                    displayName
+                  }
+                }
+                email
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

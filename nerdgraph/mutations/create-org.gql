@@ -1,0 +1,8 @@
+mutation { createOrganization(
+  customerId: "CC-1234567890",
+  organization: {name: "New Customer Organization Name"},
+  newManagedAccount: {name: "New Managed Account Name", regionCode: US01},
+  sharedAccount: {accountId: 1234567, limitingRoleId: 325}
+  ) {
+  jobId
+}

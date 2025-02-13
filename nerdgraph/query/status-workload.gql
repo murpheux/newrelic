@@ -1,0 +1,12 @@
+{
+  actor {
+    entity(guid: "YOUR_WORKLOAD_GUID") {
+      ... on WorkloadEntity {
+        guid
+        workloadStatus {
+          statusValue
+        }
+      }
+    }
+  }
+}

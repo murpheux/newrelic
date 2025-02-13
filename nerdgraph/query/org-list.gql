@@ -1,0 +1,10 @@
+{
+  customerAdministration {
+    organizations {
+      items {
+        id
+        name
+      }
+    }
+  }
+}

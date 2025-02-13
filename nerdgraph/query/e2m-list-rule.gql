@@ -1,0 +1,17 @@
+query {
+  actor {
+    account(id: 123456) {
+      eventsToMetrics {
+        allRules {
+          rules {
+            id
+            name
+            enabled
+            nrql
+            description
+          }
+        }
+      }
+    }
+  }
+}

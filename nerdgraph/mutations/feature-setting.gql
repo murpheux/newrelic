@@ -1,0 +1,15 @@
+mutation {
+  dataManagementUpdateFeatureSettings(
+    accountId: YOUR_ACCOUNT_ID
+    setting: {
+      enabled: false
+      locked: true
+      featureSetting: { key: "apm_log_forwarding" }
+    }
+  ) {
+    enabled
+    key
+    name
+    locked
+  }
+}

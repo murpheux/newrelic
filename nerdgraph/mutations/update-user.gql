@@ -1,0 +1,14 @@
+mutation {
+  userManagementUpdateUser(
+    updateUserOptions: { id: "ID_OF_YOUR_USER", email: "EMAIL_OF_YOUR_USER", userType: FULL_USER_TIER }
+  ) {
+    user {
+      id
+      email
+      type {
+        displayName
+        id
+      }
+    }
+  }
+}

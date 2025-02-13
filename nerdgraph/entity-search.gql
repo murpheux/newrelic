@@ -1,0 +1,89 @@
+{
+  actor {
+    entitySearch(query: "domain = 'AIOPS' AND type = 'ISSUE'") {
+      results {
+        entities {
+          name
+          accountId
+          tags {
+            key
+            values
+          }
+        }
+        nextCursor
+      }
+    }
+  }
+}
+
+
+query ExampleReadQuery {
+  actor {
+    entity(guid: "ZjY1ODgxfEFQTXxBUFBYSUNBVElPTnz0ODEwMTY3NzZ") {
+      ... on ApmApplicationEntity {
+        apmSettings {
+          apmConfig {
+            useServerSideConfig
+          }
+        }
+      }
+    }
+  }
+}
+
+
+mutation ExampleUpdateQuery {
+  agentApplicationSettingsUpdate(
+    guid: "ZjY1ODgxfEFQTXxBUFBYSUNBVElPTnz0ODEwMTY3NzZ"
+    settings: { apmConfig: { useServerSideConfig: false } }
+  ) {
+    apmSettings {
+      apmConfig {
+        useServerSideConfig
+      }
+    }
+    errors {
+      description
+      errorClass
+      field
+    }
+  }
+}
+
+
+query ExampleReadQuery {
+  actor {
+    entity(guid: "ZjY1ODgxfEFQTXxBUFBYSUNBVElPTnz0ODEwMTY3NzZ") {
+      ... on ApmApplicationEntity {
+        guid
+        name
+        apmSettings {
+          transactionTracer {
+            enabled
+            explainEnabled
+            explainThresholdType
+            explainThresholdValue
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+mutation {
+  dataManagementUpdateFeatureSettings(
+    accountId: YOUR_ACCOUNT_ID
+    setting: {
+      enabled: false
+      locked: true
+      featureSetting: { key: "apm_log_forwarding" }
+    }
+  ) {
+    enabled
+    key
+    name
+    locked
+  }
+}

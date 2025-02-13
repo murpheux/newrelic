@@ -1,0 +1,27 @@
+customerAdministration {
+  accounts(cursor, filter: {id: {eq: 1234}, organizationId: {eq: "ORGANIZATION_ID"}, sharingMode: {eq: MANAGED}, status: {eq: ACTIVE} }, sort: [{ key: NAME, direction: ASCENDING }])) {
+    nextCursor
+    items {
+      id
+      name
+      regionCode
+      status
+    }
+  }
+}
+
+
+query {
+	customerAdministration {
+		accounts(filter: {organizationId: {eq: "ORGANIZATION_ID_HERE"}}) 
+			{
+				items {
+					id
+					name
+					status
+					regionCode
+				}
+			}
+		}
+	}
+}

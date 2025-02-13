@@ -1,0 +1,22 @@
+mutation {
+  accountManagementCreateAccount(
+    managedAccount: { name: "NEW_ACCOUNT_NAME", regionCode: "eu01" }
+  ) {
+    managedAccount {
+      id
+      name
+      regionCode
+    }
+  }
+}
+
+
+mutation {
+  accountManagementCreateAccount(managedAccount: { name: "NEW_ACCOUNT_NAME", regionCode: "us01|eu01" }) {
+    managedAccount {
+id
+name
+regionCode
+    }
+  }
+}

@@ -1,0 +1,6 @@
+@nrNet_HostAddress = http://localhost:5097
+
+GET {{nrNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

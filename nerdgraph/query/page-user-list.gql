@@ -1,0 +1,46 @@
+# returns 500users and 10 Auth Domains by default
+
+{
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains(id: "YOUR_AUTH_DOMAIN_ID") {
+          authenticationDomains {
+            users(cursor: "=abcdEFGH2356X") {
+              nextCursor
+              totalCount
+              users {
+                email
+                id
+                lastActive
+                name
+                type {
+                  displayName
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+{
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains(cursor: "=123xyzABCx") {
+          nextCursor
+          totalCount
+          authenticationDomains {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}

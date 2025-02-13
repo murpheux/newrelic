@@ -1,0 +1,11 @@
+mutation {
+    taggingAddTagsToEntity(
+        guid: "myentityguid"
+        tags: {key: "MyTag", values: "MyTagValues"}
+    ) {
+        errors {
+            message
+            type
+        }
+    }
+}

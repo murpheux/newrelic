@@ -1,0 +1,8 @@
+mutation {
+  accountManagementCancelAccount(id: $accountId) {
+    id
+    isCanceled
+    name
+    regionCode
+  }
+}

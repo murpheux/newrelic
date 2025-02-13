@@ -1,0 +1,16 @@
+mutation {
+  authorizationManagementRevokeAccess(
+    revokeAccessOptions: {
+      accountAccessGrants: {
+        accountId: YOUR_ACCOUNT_ID
+        roleId: "YOUR_ROLE_ID"
+      }
+      groupId: "YOUR_GROUP_ID"
+    }
+  ) {
+    roles {
+      accountId
+      displayName
+    }
+  }
+}

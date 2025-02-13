@@ -1,0 +1,163 @@
+SELECT latest(`host.process.cpuPercent`) FROM Metric FACET `process.name`  SINCE 1 HOURS AGO TIMESERIES
+
+SELECT average(cpuPercent) FROM ProcessSample FACET processDisplayName SINCE 1 HOURS AGO TIMESERIES
+
+FROM ProcessSample SELECT average(cpuPercent) facet processDisplayName since 5 minutes ago  
+
+------------------------------------
+-> Istio NRQL Historgram
+FROM Metric SELECT histogram(istio_request_duration_milliseconds_bucket, 1000) WHERE reporter = 'destination' FACET source_canonical_service
+
+FROM Metric SELECT (filter(rate(sum(istio_requests_total), 1 minute), WHERE response_code LIKE '5%')) AS 'Errors' WHERE reporter = 'destination' FACET source_workload TIMESERIES
+
+FROM Metric SELECT histogram(istio_request_duration_milliseconds_bucket, 1000) AS 'Requests' WHERE reporter = 'source'
+
+FROM Metric SELECT average(envoy_cluster_upstream_cx_rx_bytes_total) WHERE label.app='istio-ingressgateway' FACET clusterName, namespaceName TIMESERIES AUTO
+------------------------------------
+
+FROM Metric
+ SELECT rate(sum(istio_requests_total), 1 SECOND) AS 'Req/Sec' where reporter = 'source' FACET destination_canonical_service, response_code TIMESERIES
+
+SELECT percentage(count(*), where result='SUCCESS') as 'DemoResult' from SyntheticCheck where locationLabel='Paris, FR' since 5 minutes ago
+
+FROM KFlow SELECT sum(in_bytes) AS 'bytes' FACET src_endpoint AS 'Source', application, dst_endpoint AS 'Destination' SINCE 1 HOUR AGO LIMIT 10
+
+FROM KFlow SELECT sum(in_bytes) AS 'bytes' FACET l4_src_port AS 'TCP Port', application WHERE application IS NOT NULL SINCE 1 HOUR AGO LIMIT 10
+
+FROM WinUptime select Sum(uptime)/3600 as HoursUp where hostname='EC2AMAZ-KF4O5DH' and uptime is not null since 5 hour ago
+
+
+FROM WinUptime select (Sum(uptime)/3600)*100 as Availability where hostname='EC2AMAZ-KF4O5DH' and uptime is not null since 1 hour ago
+FROM WinUptime select (Sum(uptime)/(10*60))*100 as Availability where hostname='EC2AMAZ-KF4O5DH' and uptime is not null since 10 minutes ago
+
+FROM WinUptime select sum(uptime) where hostname='EC2AMAZ-KF4O5DH' FACET hourOf(timestamp) since 30 minutes ago TIMESERIES 1 minute
+
+Error
+FROM WinUptime select * where context_error='context deadline exceeded'  since 1 day ago
+
+> CCU
+
+SELECT filter(COUNT(newrelic.timeslice.value), WHERE metricTimesliceName Like 'Custom/info/PurchaseSuccessful%') /
+ (filter(COUNT(newrelic.timeslice.value), WHERE metricTimesliceName Like 'Custom/info/PurchaseSuccessful%') +
+  filter(COUNT(newrelic.timeslice.value), WHERE metricTimesliceName Like 'Custom/error/PurchaseFailed%%')) *
+ 100 as 'Success Rate'
+FROM Metric WHERE appName = 'Stargate - GCP Production'
+
+> reducing the amount of CCUs
+
+SELECT median(duration * 1000) as median, percentile(duration, 95) * 1000 as '95th', percentile(duration, 99) * 1000 as '99th' FROM Transaction WHERE (entityGuid = 'Mjk4NHxBUE18QVBQTElDQVRJT058MjQ5MDE5NTQw') AND ((transactionType = 'Web' AND name = 'Controller/rights_requests/index')) LIMIT 1 SINCE 7776000 seconds AGO EXTRAPOLATE
+
+
+::: Top Metrics  :::
+SELECT bytecountestimate()/10e8 FROM Metric facet metricName since 10 MINUTES AGO limit 2000
+
+
+::: Top Prometheus Metrics
+SELECT bytecountestimate()/10e8 FROM `Metric` WHERE newrelic.source = 'prometheusAPI' AND instrumentation.provider != 'kentik' AND instrumentation.provider != 'pixie' FACET newrelic.source, metric_name,instrumentation.name, instrumentation.source LIMIT 2000 SINCE 1698807251908 UNTIL 1698810851908
+
+FROM K8sPodSample, K8sReplicasetSample, K8sServiceSample, K8sStatefulsetSample, K8sVolumeSample, GcpBigQueryTableSample, GcpCloudSqlSample, GcpDataflowJobSample, GcpHttpLoadBalancerSample, GcpInternalLoadBalancerSample, GcpKubernetesContainerSample, GcpKubernetesNodeSample, GcpKubernetesPodSample, GcpPubSubSubscriptionSample, GcpPubSubTopicSample, GcpRedisInstanceSample, GcpRouterNatGatewaySample, GcpRunRevisionSample, GcpSpannerDatabaseSample, GcpSpannerInstanceSample, GcpStorageBucketSample, GcpVirtualMachineDiskSample, GcpVirtualMachineSample, IntegrationDataFreshnessReport, IntegrationError, IntegrationProviderReport, InternalK8sCompositeSample, K8sClusterSample, K8sContainerSample, K8sDaemonsetSample, K8sDeploymentSample, K8sEndpointSample, K8sHpaSample, K8sNamespaceSample, K8sNodeSample SELECT bytecountestimate()/10e8 facet eventType() SINCE 1 day ago
+
+SELECT bytecountestimate()/10e8 FROM AgentUpdate, ApplicationAgentContext, AutoScalingGroupSample, AutoScalingInstanceSample, AutoScalingLaunchConfigurationSample, AutoScalingPolicySample, AutoScalingRegionLimitSample, BlockDeviceSample, CCRemoveCount, CCSend, CCUpdateJobStatus, CCValidateFiles, CheckCount, ComputeSample, DatastoreSample, Datastreams, SyncLatency, Deployment, DistributedTraceSummary, EmailBodyFetching, EntityAudits, ErrorTrace, EU_MissingFullBackups, FetchingTimeWithDB, flexStatusSample, GcpBigQueryDataSetSample, GcpBigQueryTableSample, GcpCloudFunctionSample, GcpCloudSqlSample, GcpStorageBucketSample, GcpVirtualMachineDiskSample, GmailBatchRequest, HAProxyBackendSample, HAProxyFrontendSample, HAProxyServerSample, HeartbeatSample, IamAccountSummarySample, InjectorEvent, IntegrationDataFreshnessReport, IntegrationError, IntegrationProviderReport, InternalK8sCompositeSample, K8sClusterSample, K8sContainerSample, K8sDaemonsetSample, K8sDeploymentSample, K8sEndpointSample, K8sHpaSample, K8sNamespaceSample, K8sNodeSample, K8sPodSample, K8sReplicasetSample, K8sServiceSample, K8sStatefulsetSample, K8sVolumeSample, LoadBalancerSample, MissingFullBackups, MongoCollectionSample, MongoDatabaseSample, MongodSample, MongodTopSample, MySQLCustomBlocking, MySQLCustomProcessList, MySQLCustomShowVars, mysqlError, MysqlSample, NFSSample, NoneProviderID, NrAiAnomaly, NrAiIncident, NrAiInternalIncident, NrAiInternalIssue, NrAiInternalIssue2Incidents, NrAiInternalIssueTags, NrAiIssue, NrAiSignal, NrAuditEvent, NrConsumption, NrdbQuery, NrIntegrationError, NrMTDConsumption, NrNotificationsEvent, NrUsage, Outbox_Request_Failure, Outbox_Request_Success, Outbox_Status_Delayed, Outbox_Status_Failed, PrivateNetworkSample, ProviderErrors,  PublishEvent, QueueSample, Relationship, ServerlessSample, ServiceLevelSnapshot, SesReceiptSample, SesRegionSample, ShowReplicationStatus, SqlTrace, SyncSendEvent, TransactionTrace, WorkloadStatus facet eventType() LIMIT max
+
+SELECT * FROM MySQLCustomShowVars SINCE 30 MINUTES AGO LIMIT max
+
+SELECT bytecountestimate()/10e8 FROM MySQLCustomShowVars SINCE 1 day ago
+
+SELECT bytecountestimate()/10e8 FROM `Metric` WHERE instrumentation.provider != 'kentik' AND instrumentation.provider != 'pixie' AND (newrelic.source != 'agent' OR newrelic.source IS NULL) and metricName NOT LIKE 'newrelic%' facet metricName since 1 days ago
+
+SELECT bytecountestimate()/10e8 FROM `Metric` WHERE instrumentation.provider != 'kentik' AND instrumentation.provider != 'pixie' AND (newrelic.source != 'agent' OR newrelic.source IS NULL) and metricName LIKE 'stats.prod%' since 1 days ago LIMIT MAX
+
+FROM InfrastructureEvent SELECT
+event.involvedObject.kind, event.involvedObject.name, event.reason,event.message
+WHERE clusterName = 'YOUR_CLUSTER_NAME' limit 100
+
+FROM InfrastructureEvent SELECT keyset() WHERE category = 'kubernetes'
+
+FROM InfrastructureEvent SELECT event.involvedObject.kind,
+event.involvedObject.name, event.type, event.message, event.reason WHERE
+category = 'kubernetes' AND clusterName = 'YOUR_CLUSTER_NAME'
+
+
+SELECT apdex(apm.service.apdex) FROM Metric WHERE appId IN (123963725) FACET appId
+
+Critical: Query result is below 0.8 for at least 15 minutes
+
+
+SELECT average(apm.service.transaction.duration) * 1000 AS 'Response time (ms)' FROM Metric WHERE entity.guid = 'OTc1NDQyfEFQTXxBUFBMSUNBVElPTnwxNjc2MTM2NDI0'
+
+Critical: When Requested Checkpoints query returns a value that deviates from the predicted value for at least 5 minutes by 3 standard deviations
+
+
+SELECT filter(count(*), WHERE result = 'FAILED') FROM SyntheticCheck WHERE NOT isMuted AND entityGuid IN ('OTc1NDQyfFNZTlRIfE1PTklUT1J8ZjU3MWFjMGUtMDM2Zi00MTU0LTk3NzgtYzZkOGQ2MGUxMGU3') FACET entityGuid, location
+
+ Critical: Query result is above 0 at least once in 1 minute
+
+
+SELECT max(`aws.elasticache.Evictions.byRedisNode`) FROM Metric WHERE ((`metricName` = 'aws.elasticache.Evictions.byRedisNode') AND (`entity.name` IN ('ampprocessingredis-001-0001', 'ampredis-001-0001', 'ampprocessingredis-002-0001', 'ampredis-002-0001', 'ranvalidation-0001', 'ranvalidationservice-0001'))) FACET entity.guid, entity.name
+
+Critical: Query result is above 10 for at least 5 minutes
+ Warning: Query result is above 5 for at least 5 minutes
+
+
+SELECT count(*) FROM AwsHealthNotification WHERE service='INTERNETCONNECTIVITY' AND affectedRegion IN ('us-west-2','us-west-1','us-east-1','us-east-2') and statusCode='open'
+
+
+Critical: Query result is above 0 at least once in 1 minute
+
+
+SELECT filter(count(*), WHERE result = 'FAILED') FROM SyntheticCheck WHERE NOT isMuted AND entityGuid IN ('OTc1NDQyfFNZTlRIfE1PTklUT1J8YjZkNGQ1ODctNGVlNi00NzcwLThiOTMtNjYxNGZkNTBjYjIw') FACET entityGuid, location
+
+ Critical: Query result is above 0 at least once in 1 minute
+
+ FROM WinUptime select (Sum(uptime)/(5*60))*100 as 'availability %' where hostname in ('DUB-MON-NR01', 'US2D-MON-NR01') and uptime is not null facet hostname since 5 minutes ago 
+
+FROM WinUptime select (Sum(uptime)/(5*60))*100 /2 as 'Availability%' where (hostname='DUB-MON-NR01' OR  hostname ='US2D-MON-NR01') and uptime is not null since 5 minutes ago
+
+------------------------------------
+-> public dashboard
+FROM NrAuditEvent
+   SELECT *
+   WHERE actionIdentifier LIKE '%public_dashboard.%'
+
+FROM NrAuditEvent
+   SELECT *
+   WHERE actionIdentifier LIKE '%public_dashboard.create%'
+
+FROM NrAuditEvent
+   SELECT *
+   WHERE actionIdentifier LIKE '%public_dashboard.revoke%'
+
+FROM NrAuditEvent
+   SELECT *
+   WHERE actionIdentifier LIKE '%public_dashboard%'
+   AND actorType='user'
+   AND actorEmail=<user_email>
+
+FROM NrAuditEvent
+   SELECT *
+   WHERE actionIdentifier LIKE '%public_dashboard%'
+   AND scopeType='account'
+   AND scopeId=<account_id>
+
+WITH aparse(description, '%for dashboard *') AS dashboardGUID
+   FROM NrAuditEvent
+   SELECT count(*) AS 'dashboards'
+   WHERE actionIdentifier LIKE '%public_dashboard.create%'
+   FACET dashboardGUID
+   SINCE 1 week ago
+
+WITH aparse(description, '%for dashboard *') AS dashboardGUID,
+aparse(actionIdentifier, '%public_dashboard.*') AS publicDashOperation
+
+
+FROM NrAuditEvent
+SELECT uniqueCount(actionIdentifier) AS 'number of operations'
+WHERE publicDashOperation IS NOT NULL
+FACET actorEmail,dashboardGUID, publicDashOperation
+SINCE 1 week ago
+
+
+From Metric select (rate(sum(newrelic.resourceConsumption.currentValue), 1 minute)/latest(newrelic.resourceConsumption.limitValue))*100 WHERE limitName = 'Event API requests per minute'
+
+
+------------------------------------

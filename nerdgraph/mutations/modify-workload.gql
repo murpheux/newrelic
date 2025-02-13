@@ -1,0 +1,25 @@
+mutation {
+  workloadUpdate(
+    guid: "YOUR_WORKLOAD_GUID",
+    workload: {
+      name: "A new name for the workload",
+      entityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...],
+      entitySearchQueries: [
+        {
+          query: "(domain = 'INFRA' and type = 'HOST') and tags.label.environment = 'staging'"
+        },
+        {
+          id: AN_EXISTING_QUERY_ID,
+          query: "(type = 'SERVICE') and tags.label.environment = 'staging'"
+        },
+        ...
+      ],
+      scopeAccounts: {
+        accountIds: [NEW_RELIC_ACCOUNT_ID_1, NEW_RELIC_ACCOUNT_ID_2, ...]
+      }
+    }
+  )
+  {
+    guid
+  }
+}

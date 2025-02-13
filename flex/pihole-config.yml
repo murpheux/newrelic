@@ -1,0 +1,33 @@
+---
+integrations:
+  - name: nri-flex
+    config:
+      name: pihole
+      variable_store:
+        authkey: <PI-HIOLE-AUTH-KEY>
+
+      apis:
+        - name: pihole_summary
+          url: http://pi.hole/admin/api.php?summaryRaw&auth=${var:authkey}
+          headers:
+            accept: application/json
+
+        - name: pihole_topitems
+          url: http://pi.hole/admin/api.php?topItems=10&auth=${var:authkey}
+          headers:
+            accept: application/json
+
+        - name: pihole_topclients
+          url: http://pi.hole/admin/api.php?topClients=10&auth=${var:authkey}
+          headers:
+            accept: application/json
+
+        - name: pihole_toforwarddest
+          url: http://pi.hole/admin/api.php?topForwardDestinations&auth=${var:authkey}
+          headers:
+            accept: application/json
+
+        - name: pihole_querytypes
+          url: http://pi.hole/admin/api.php?getQueryTypes&auth=${var:authkey}
+          headers:
+            accept: application/json

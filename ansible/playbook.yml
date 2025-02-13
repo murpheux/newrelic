@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: Hello World!
+
+    - name: Download a web page
+      ansible.builtin.uri:
+        url: https://www.redhat.com
+        validate_certs: no

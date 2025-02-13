@@ -1,0 +1,7 @@
+mutation {
+  taggingDeleteTagFromEntity(guid: "ENTITY_GUID", tagKeys: ["team"]) {
+    errors {
+      message
+    }
+  }
+}

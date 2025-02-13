@@ -1,0 +1,22 @@
+mutation CreatePublicLink {
+  dashboardCreateLiveUrl(guid: "your dashboard entity guid here") {
+    url
+  }
+}
+
+
+mutation UpdatePublicLink{
+      dashboardUpdateLiveUrl(
+         id:"you link id here",
+         options: { ttl: 31536000 } # 1 year in seconds
+      ) {
+         title
+          url
+      }
+}
+
+mutation {
+  dashboardRevokeLiveUrl(id: "<public_link_id>") {
+    id
+  }
+}

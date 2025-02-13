@@ -1,0 +1,40 @@
+mutation {
+  userManagementCreateUser(
+    createUserOptions: {
+      authenticationDomainId: "---"
+      email: "yado.somali@gmail.com"
+      name: "Yaho Somali"
+      userType: BASIC_USER_TIER
+    }
+  ) {
+    createdUser {
+      id
+      email
+      name
+    }
+  }
+}
+
+
+
+mutation {
+  userManagementCreateUser(
+    createUserOptions: {
+      authenticationDomainId: "---"
+      email: "clement.onawole@gmail.com"
+      name: "Clemo Onawole"
+      userType: BASIC_USER_TIER
+    }
+  ) {
+    createdUser {
+      authenticationDomainId
+      email
+      id
+      name
+      type {
+        displayName
+        id
+      }
+    }
+  }
+}

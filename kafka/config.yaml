@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  kafkametrics:
+    brokers: localhost:9092
+    protocol_version: 2.0.0
+    scrapers:
+      - brokers
+      - topics
+      - consumers
+
+exporters:
+  otlp/uptrace:
+    endpoint: otlp.uptrace.dev:4317
+    headers: { 'uptrace-dsn': '<FIXME>' }
+
+processors:
+  resourcedetection:
+    detectors: [env, system]
+  cumulativetodelta:
+  batch:
+    timeout: 10s
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    metrics:
+      receivers: [otlp, mysql]
+      processors: [cumulativetodelta, batch, resourcedetection]
+      exporters: [otlp/uptrace]

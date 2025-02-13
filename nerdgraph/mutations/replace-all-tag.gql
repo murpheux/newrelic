@@ -1,0 +1,10 @@
+mutation {
+  taggingReplaceTagsOnEntity(
+    guid: "ENTITY_GUID"
+    tags: { key: "team", values: ["cookie-dev"] }
+  ) {
+    errors {
+      message
+    }
+  }
+}

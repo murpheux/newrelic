@@ -1,0 +1,25 @@
+display_name: softcraftscarlet
+license_key: nnnyyynnnyNRAL
+enable_process_metrics: false
+disable_all_plugins: true
+metrics_network_sample_rate: 60
+metrics_process_sample_rate: 60
+metrics_storage_sample_rate: 60
+metrics_system_sample_rate: 30
+exclude_matching_metrics:
+  process.name:
+    - regex "^google"
+    - "systemd-journald"
+include_matching_metrics:
+  process.name:
+    - regex "^java"    
+    - regex "^systemd"
+log:
+  file: '/var/log/newrelic-infra/newrelic-infra.log'
+  level: info
+  forward: true
+  stdout: false
+custom_attributes:
+  environment: development
+  team: conawole-dev
+  network: sofcrafthome

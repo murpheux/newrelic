@@ -1,0 +1,7 @@
+mutation {
+  userManagementDeleteUser(deleteUserOptions: { id: "ID_OF_YOUR_USER" }) {
+    deletedUser {
+      id
+    }
+  }
+}

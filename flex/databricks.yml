@@ -1,0 +1,34 @@
+---
+integrations:
+  - name: nri-flex
+    interval: 30s
+    config:
+      name: DataBricks Metrics
+      apis:
+        - name: get credentials
+          commands:
+            - run: "curl -sb --request POST --url https://accounts.cloud.databricks.com/oidc/accounts/6bc43c57-8115-4815-a9ee-a5e1989aef94/v1/token --user '457e27e5-a17a-43ba-a4fa-307d7558c1af:dosee2b080c561b96f568bb5c3ec3487308b' --data 'grant_type=client_credentials&scope=all-apis' | jq .access_token | tr -d '\"' > /home/murpheux/flex_dbricks/cred.csv"
+          ignore_output: true
+
+        - name: account usage
+          commands:
+            - run: "curl -sb --location 'https://accounts.cloud.databricks.com/api/2.0/accounts/6bc43c57-8115-4815-a9ee-a5e1989aef94/usage/download?start_month=2024-03&end_month=2024-04&personal_data=true' --header 'Authorization: Bearer '$(cat /home/murpheux/flex_dbricks/cred.csv) --header 'Cookie: enable-armeria-server-for-ui-flags=false' > /home/murpheux/flex_dbricks/output.csv"
+          ignore_output: true
+
+        - name: change timestamp
+          commands:
+            - run: "sed -i 's/timestamp/source_tstamp/g' /home/murpheux/flex_dbricks/output.csv"
+          ignore_output: true
+
+        - event_type: databricksAccountUsage
+          file: "/home/murpheux/flex_dbricks/output.csv"
+        
+        - name: deleteCredFile
+          commands: 
+            - run: "rm -f /home/murpheux/flex_dbricks/cred.csv"
+          ignore_output: true
+
+        - name: deleteOutputFile
+          commands: 
+            - run: "rm -f /home/murpheux/flex_dbricks/output.csv"
+          ignore_output: true

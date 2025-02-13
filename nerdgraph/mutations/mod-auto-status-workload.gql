@@ -1,0 +1,57 @@
+{
+  "statusConfig": {
+    "automatic": {
+      "enabled": true,
+      "rules": [
+        {
+          "entitySearchQueries": [
+            { "query": "(domain = 'APM' and type = 'APPLICATION')" }
+          ],
+          "rollup": {
+            "strategy": "WORST_STATUS_WINS",
+            "thresholdType": null,
+            "thresholdValue": null
+          }
+        },
+        {
+          "entitySearchQueries": [
+            { "query": "(domain = 'MOBILE' and type = 'APPLICATION')" }
+          ],
+          "rollup": {
+            "strategy": "WORST_STATUS_WINS",
+            "thresholdType": null,
+            "thresholdValue": null
+          }
+        },
+        {
+          "entitySearchQueries": [
+            { "query": "(domain = 'BROWSER' and type = 'APPLICATION')" }
+          ],
+          "rollup": {
+            "strategy": "WORST_STATUS_WINS",
+            "thresholdType": null,
+            "thresholdValue": null
+          }
+        },
+        {
+          "entitySearchQueries": [
+            { "query": "(domain = 'SYNTH' and type = 'MONITOR')" }
+          ],
+          "rollup": {
+            "strategy": "WORST_STATUS_WINS",
+            "thresholdType": null,
+            "thresholdValue": null
+          }
+        }
+      ],
+      "remainingEntitiesRule": {
+        "rollup": {
+          "groupBy": "ENTITY_TYPE",
+          "strategy": "BEST_STATUS_WINS",
+          "thresholdType": null,
+          "thresholdValue": null
+        }
+      }
+    }
+  }
+}

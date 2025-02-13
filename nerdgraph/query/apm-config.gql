@@ -1,0 +1,13 @@
+query ExampleReadQuery {
+  actor {
+    entity(guid: "<Apm App Entity ID") {
+      ... on ApmApplicationEntity {
+        apmSettings {
+          apmConfig {
+            useServerSideConfig
+          }
+        }
+      }
+    }
+  }
+}

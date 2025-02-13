@@ -1,0 +1,23 @@
+{
+  actor {
+    account(id: YOUR_ACCOUNT_ID) {
+      nrqlDropRules {
+        list {
+          rules {
+            id
+            nrql
+            accountId
+            action
+            createdBy
+            createdAt
+            description
+          }
+          error {
+            reason
+            description
+          }
+        }
+      }
+    }
+  }
+}

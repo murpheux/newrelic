@@ -1,0 +1,13 @@
+mutation {
+  userManagementAddUsersToGroups(
+    addUsersToGroupsOptions: {
+      groupIds: [FIRST_GROUP_ID, SECOND_GROUP_ID]
+      userIds: [YOUR_USERS_IDS]
+    }
+  ) {
+    groups {
+      displayName
+      id
+    }
+  }
+}

@@ -1,0 +1,11 @@
+mutation {
+  accountManagementUpdateAccount(
+    managedAccount: { name: "UPDATED_ACCOUNT_NAME", id: 101010101 }
+  ) {
+    managedAccount {
+      id
+      name
+      regionCode
+    }
+  }
+}

@@ -1,0 +1,19 @@
+mutation {
+  eventsToMetricsDeleteRule(deletes: { ruleId: "12", accountId: 123456 }) {
+    successes {
+      id
+      name
+      nrql
+    }
+    failures {
+      errors {
+        description
+        reason
+      }
+      submitted {
+        ruleId
+        accountId
+      }
+    }
+  }
+}

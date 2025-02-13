@@ -1,0 +1,30 @@
+{
+  actor {
+    entity(guid: "YOUR_WORKLOAD_GUID") {
+      accountId
+      name
+      permalink
+      ... on AlertableEntity {
+        alertSeverity
+      }
+      ... on CollectionEntity {
+        collection(name: "WORKLOAD") {
+          members {
+            count
+            results {
+              entities {
+                accountId
+                entityType
+                name
+                guid
+                ... on AlertableEntityOutline {
+                  alertSeverity
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

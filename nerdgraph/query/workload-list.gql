@@ -1,0 +1,13 @@
+{
+  actor {
+    entitySearch(query: "accountId = YOUR_ACCOUNT_ID and type = 'WORKLOAD'") {
+      results {
+        entities {
+          guid
+          name
+          permalink
+        }
+      }
+    }
+  }
+}

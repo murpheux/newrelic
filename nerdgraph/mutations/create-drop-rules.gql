@@ -1,0 +1,25 @@
+mutation {
+  nrqlDropRulesCreate(
+    accountId: YOUR_ACCOUNT_ID
+    rules: [
+      {
+        action: DROP_ATTRIBUTES
+        nrql: "SELECT userEmail, userName FROM MyCustomEvent"
+        description: "Removes the user name and email fields from MyCustomEvent"
+      }
+    ]
+  ) {
+    successes {
+      id
+    }
+    failures {
+      submitted {
+        nrql
+      }
+      error {
+        reason
+        description
+      }
+    }
+  }
+}

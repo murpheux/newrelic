@@ -1,0 +1,19 @@
+{
+  actor {
+    entitySearch(queryBuilder: {domain: SYNTH, type: MONITOR}) {
+      results {
+        entities {
+          account {
+            id
+            name
+          }
+          entityType
+          name
+          permalink
+          type
+        }
+        nextCursor
+      }
+    }
+  }
+}

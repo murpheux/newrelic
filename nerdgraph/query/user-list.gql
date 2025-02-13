@@ -1,0 +1,24 @@
+{
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains(id: "---") {
+          authenticationDomains {
+            users {
+              users {
+                id
+                name
+                email
+                lastActive
+                type {
+                  displayName
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

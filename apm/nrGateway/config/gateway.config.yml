@@ -1,0 +1,89 @@
+https:
+    port: 443
+    tls:
+        'default':
+            key: /Users/murpheux/Workspace/newrelic/apm/nrGateway/cert/server.key
+            cert: /Users/murpheux/Workspace/newrelic/apm/nrGateway/cert/server.crt
+            ca:
+                [
+                    /Users/murpheux/Workspace/newrelic/apm/nrGateway/cert/rootCA.pem,
+                ]
+admin:
+    port: 9876
+    host: localhost
+
+apiEndpoints:
+    api:
+        host: localhost
+        paths: '/ip'
+    nrApi:
+        paths: '/*'
+
+serviceEndpoints:
+    httpbin:
+        url: 'https://httpbin.org'
+    nrService:
+        url: 'http://localhost:8080/api/v1'
+policies:
+    - basic-auth
+    - cors
+    - expression
+    - key-auth
+    - log
+    - oauth2
+    - proxy
+    - jwt
+    - oauth2
+    - rate-limit
+
+pipelines:
+    default:
+        apiEndpoints:
+            - api
+        policies:
+            # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+            # - key-auth:
+            - proxy:
+                  - action:
+                        serviceEndpoint: httpbin
+                        changeOrigin: true
+    nrApiPipeline:
+        apiEndpoints:
+            - nrApi
+        policies:
+            #- metrics:
+            #- key-auth:
+            - rate-limit:
+                - action:
+                    max: 5 # Limit to 1 per second
+                    windowMs: 1000
+                    statusCode: 400
+                    message: Can't let you do that, Star Fox!
+                    # Adds the following headers:
+                    #   X-RateLimit-Limit (# of requests allowed)
+                    #   X-RateLimit-Remaining (# of requests before hitting limit)
+                    headers: true
+            - proxy:
+                - action:
+                    serviceEndpoint: nrService
+                    changeOrigin: true
+            # - oauth2:
+            #     action:
+            #         jwt:
+            #             issuer: express-gateway
+            #             audience: 'https://localhost'
+            #             subject: 'auth0|123456789'
+            #             secretOrPublicKey: 'HEYg4wC%4rtWn*cHtjnjg^jB29EXEHoG5%HwJF*EcPihHnSV7aGtWRf$REo6vRtx'
+            #             checkCredentialExistence: false
+            # - jwt:
+            #     action:
+            #         checkCredentialExistence: false
+            #         secretOrPublicKeyFile: '/Users/murpheux/Workspace/newrelic/apm/nrGateway/cert/key.pem'
+            # - proxy:
+            #     action:
+            #         serviceEndpoint: nrService
+            #         changeOrigin: true
+            #         proxyOptions:
+            #             preparePath: true
+            #             ignorePath: true
+            #             secure: false

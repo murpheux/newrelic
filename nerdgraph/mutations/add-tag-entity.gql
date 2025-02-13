@@ -1,0 +1,10 @@
+mutation {
+  taggingAddTagsToEntity(
+    guid: "ENTITY_GUID"
+    tags: { key: "team", values: ["ui"] }
+  ) {
+    errors {
+      message
+    }
+  }
+}

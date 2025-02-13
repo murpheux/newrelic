@@ -1,0 +1,20 @@
+mutation {
+  workloadUpdate(
+    guid: "YOUR_WORKLOAD_GUID"
+    workload: {
+      statusConfig: {
+        static: {
+          enabled: true
+          status: DEGRADED
+          description: "Game day. Expect some turbulence today between 8 and 9am PST."
+        }
+      }
+    }
+  ) {
+    guid
+    updatedAt
+    status {
+      value
+    }
+  }
+}

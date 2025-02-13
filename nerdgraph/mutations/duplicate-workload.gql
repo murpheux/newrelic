@@ -1,0 +1,9 @@
+mutation {
+  workloadDuplicate(
+    accountId: NEW_WORKLOAD_ACCOUNT_ID
+    sourceGuid: "ORIGINAL_WORKLOAD_GUID"
+    workload: { name: "New workload" }
+  ) {
+    guid
+  }
+}

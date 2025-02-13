@@ -1,0 +1,14 @@
+{
+  actor {
+    entitySearch(query: "name like 'Cookie Checkout'") {
+      results {
+        entities {
+          tags {
+            key
+            values
+          }
+        }
+      }
+    }
+  }
+}

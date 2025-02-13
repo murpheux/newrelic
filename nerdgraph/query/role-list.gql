@@ -1,0 +1,41 @@
+{
+  actor {
+    organization {
+      authorizationManagement {
+        authenticationDomains {
+          authenticationDomains {
+            groups {
+              groups {
+                roles {
+                  roles {
+                    accountId
+                    displayName
+                    id
+                    name
+                    organizationId
+                    type
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+{
+  customerAdministration {
+    roles(filter: { organizationId: { eq: "ANY_ORG_ID" } }) {
+      items {
+        id
+        name
+        scope
+        type
+      }
+    }
+  }
+}

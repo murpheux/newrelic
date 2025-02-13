@@ -1,0 +1,13 @@
+mutation {
+  userManagementUpdateGroup(
+    updateGroupOptions: {
+      displayName: "YOUR_UPDATED_GROUP_NAME"
+      id: "YOUR_GROUP_ID"
+    }
+  ) {
+    group {
+      id
+      displayName
+    }
+  }
+}

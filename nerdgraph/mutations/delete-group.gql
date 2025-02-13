@@ -1,0 +1,7 @@
+mutation {
+  userManagementDeleteGroup(groupOptions: { id: "YOUR_GROUP_ID" }) {
+    group {
+      id
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  customerAdministration {
+    authenticationDomains(filter: { organizationId: { eq: "Y" } }) {
+      items {
+        id
+        name
+        provisioningType
+        authenticationType
+      }
+    }
+  }
+}
